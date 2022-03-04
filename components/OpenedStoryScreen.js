@@ -1,12 +1,9 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     FlatList, View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, LogBox, Animated, TextInput, KeyboardAvoidingView,
     Platform, Keyboard,
 } from 'react-native';
-import { LinearGradient } from "expo-linear-gradient";
-import * as firebase from 'firebase';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { YellowBox } from 'react-native'
+
 
 //components
 import Timers from '../components/Timers'
@@ -35,7 +32,6 @@ export default function UserStories({ route, navigation }) {
 
 
     useEffect(() => {
-        // console.log("============================================================OPENED:", route.params)
         LogBox.ignoreLogs(['Non-serializable values were found in the navigation state'])
         //
         setStories(route.params.items.item)
@@ -44,10 +40,6 @@ export default function UserStories({ route, navigation }) {
 
     const nextPicture = () => {
         console.log("next")
-
-
-
-        //console.log("stories array:", stories)
         let arry = JSON.parse(JSON.stringify(stories))
         arry.shift()
         setStories(arry)
@@ -61,7 +53,6 @@ export default function UserStories({ route, navigation }) {
         var a = route.params.items.item.length
         var b = windowWidth - 20
         let width = (windowWidth - 20) / a;
-        //console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++width:", width)
         setTimersLength(width)
         setLoaded(true)
     }
@@ -70,8 +61,6 @@ export default function UserStories({ route, navigation }) {
 
 
     useEffect(() => {
-        //console.log("display new photo, time is over ")
-        //console.log("changed word:", word)
         if (word === 'change') {
             nextPicture(); // next picture pass by prop into timer 
         }
@@ -83,40 +72,12 @@ export default function UserStories({ route, navigation }) {
     let endAnimation = 'false';
 
     const renderItem = ({ item, index }) => {
-
-
-
-
-
-
-        // console.log("selectedID============================================: ",selectedId)
         if (selectedId == item.id) {
-            //console.log("current animation started at id:", selectedId)
             endAnimation = 'true'
         } else {
             endAnimation = 'false'
         }
-
-
-        //timer shoud say when animation is started and pass it than i could eventually end that animation based on item.id here
-
-
-
-        // const endAnimation = item.id === selectedId ? "close" : ""; //potem na click biore obecne id i zmieniam animation na end wysyłam i tam powinno się skończyć
-        /*
-        on next picture:
-        get selectedid 
-        rerender timers and set width of Animated leftValue at the max value
-        //https://reactnative.dev/docs/flatlist
-        kiedy press selectedID robie change długości tak jak tutaj koloru 
-           
-            const color = item.id === selectedId ? 'white' : 'black';
-        */
-        //console.log("ID============================================: ",item.id)
-
         IDs.push(item.id)
-        //console.log(IDs)
-
         return (
 
             <Timers
@@ -126,7 +87,7 @@ export default function UserStories({ route, navigation }) {
                 changeWord={word => setWord(word)}
                 onPress={() => setSelectedId(item.id)}
                 index={index}
-                nextPicture={() => nextPicture()} //zmieniłem tutaj 
+                nextPicture={() => nextPicture()}
                 endAnimation={endAnimation}
             />
         );

@@ -1,7 +1,5 @@
-
-
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, FlatList, TextInput, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, Image, FlatList, TextInput,  ActivityIndicator } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import * as firebase from 'firebase';
 /*ICONS*/
@@ -28,7 +26,6 @@ export default function postLikesScreen({ route, navigation }) {
     try{
       let currentUser = userDBdata.uid
       firebase.database().ref('users/' + currentUser).on('value', function (snapshot) {
-        //console.log("SnapShotVALUE:",snapshot.val().followers);
         setCurrentUserFollowed(snapshot.val().followed)        
        });
        fetchUsersData()

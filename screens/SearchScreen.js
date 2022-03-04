@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Dimensions, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { Text, View, TextInput, Dimensions, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -35,7 +35,6 @@ export default function SearchScreen({ route, navigation }) {
 
 
   const fetchUsersData = async () => {
-    console.log("fetch data")
     let usersArry = [];
     await firebase.database().ref('users/')
       .once('value')
@@ -46,7 +45,6 @@ export default function SearchScreen({ route, navigation }) {
   }
 
   const readUserData = () => {
-    console.log("ReadUserData:")
     if (firebase.auth().currentUser) {
       let userId = firebase.auth().currentUser.uid;
       if (userId) {
@@ -151,7 +149,6 @@ export default function SearchScreen({ route, navigation }) {
               hideNumberOfLikesComments: hideNumberOfLikesComments,
               disableCommenting: disableCommenting,
             });
-            //console.log(list)
           });
         })
       setPosts(list)
@@ -159,13 +156,11 @@ export default function SearchScreen({ route, navigation }) {
       if (loading) {
         setLoading(false);
       }
-      //console.log("Posts: ", list)
     } catch (e) {
       console.log(e);
     }
   }
   const seePost = (post) => {
-    console.log('see')
     navigation.navigate("SinglePostScreen", {
       post: post,
       userDBdata: userDBdata,

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 export default function heartButton(props) {
 
   const press = () => {
-    console.log("press")
     props.navigation.navigate('ActivityStack', { testProp: 'testProp' })
   }
   return (
@@ -22,6 +21,6 @@ const styles = StyleSheet.create({
   img: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop:5,
+    marginTop: 5,
   },
 })

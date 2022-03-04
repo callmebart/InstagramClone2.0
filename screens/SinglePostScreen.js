@@ -33,7 +33,6 @@ export default function SinglePostScreen({ route, navigation }) {
                     userDBdata={route.params.userDBdata}
                     currentUserUID={route.params.userDBdata.uid}
                     onPress={() => navigation.navigate("HomeProfile", { userId: route.params.post.userId, postdata: route.params.post, })}
-                    userDBdata={route.params.userDBdata}
                     setSelectedId={() => setSelectedId(route.params.post.id)} //Id of the post
                     setFadeBottomSheet={(set) => setFadeBottomSheet(set)} //fade in sheet
                     newComment={commmentValue} //comment value

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, PanResponder, Animated, Switch } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, PanResponder, Animated, Switch } from 'react-native';
 
 
 /*ICONS*/
@@ -11,8 +11,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function AddToInstaAdvancedSettings({ route, navigation }) {
-    // console.log("route.params photoData URI:",selectedPhotoUri)
-    // console.log("route.params photoData Name:",takenImageName)
+
     //Switch to set Hide Likes 
     const [hideNumberOfLikesComments, setHideNumberOfLikesComments] = useState(route.params.hideNumberOfLikesComments);
     const toggleSwitchHideLikes = () => setHideNumberOfLikesComments(previousState => !previousState);

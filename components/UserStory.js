@@ -1,6 +1,5 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { LinearGradient } from "expo-linear-gradient";
 import * as firebase from 'firebase';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -9,7 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function UserStories(props) {
 
-    const [userDBdata, setUserDBdata] = useState();    //for user real Time Database 
+    const [userDBdata, setUserDBdata] = useState();
     const [loaded, setLoaded] = useState(false);
     const [image, setImage] = useState(null);
 
@@ -19,30 +18,28 @@ export default function UserStories(props) {
     }, []);
 
     const readUserData = async () => {
-        try{
-        if (await firebase.auth().currentUser) {
-            let userId = firebase.auth().currentUser.uid;
-            if (userId) {
-                await firebase.database().ref('users/' + userId)
-                    .once('value')
-                    .then(snapshot => {
-                        //console.log('User data instaStory: ', snapshot.val());
-                        let userData = snapshot.val();
-                        setUserDBdata(userData);
-                        //console.log("instaStoryUserData: ", userDBdata.photoURL)
-                        setLoaded(true)
-                    });
+        try {
+            if (await firebase.auth().currentUser) {
+                let userId = firebase.auth().currentUser.uid;
+                if (userId) {
+                    await firebase.database().ref('users/' + userId)
+                        .once('value')
+                        .then(snapshot => {
+                            let userData = snapshot.val();
+                            setUserDBdata(userData);
+                            setLoaded(true)
+                        });
+                }
             }
-        }
-    }catch(e){console.log(e)}
+        } catch (e) { console.log(e) }
     }
-   
+
 
     const onChooseImagePress = async () => {
         let result = await ImagePicker.launchCameraAsync();
         //let result = await ImagePicker.launchImageLibraryAsync();
         if (!result.cancelled) {
-            //stworzenie filename i unique nazwa na podstawie daty 
+            //make filename and unique name
             let filename = result.uri.substring(result.uri.lastIndexOf('/') + 1)
             const extension = filename.split('.').pop();
             const name = filename.split('.').slice(0, -1).join('.');
@@ -65,7 +62,6 @@ export default function UserStories(props) {
         ref.put(blob);
         console.log("blob send")
 
-        //informacje o wysyłce danych i get url of photo
         ref.put(blob).on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
             (snapshot) => {
                 // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -81,8 +77,6 @@ export default function UserStories(props) {
                 }
             },
             (error) => {
-                // A full list of error codes is available at
-                // https://firebase.google.com/docs/storage/web/handle-errors
                 switch (error.code) {
                     case 'storage/unauthorized':
                         // User doesn't have permission to access the object
@@ -105,7 +99,7 @@ export default function UserStories(props) {
                     ref.put(blob).snapshot.ref.getDownloadURL().then((downloadURL) => {
                         console.log('File available at', downloadURL);
                         firebase.firestore()
-                            .collection('stories') 
+                            .collection('stories')
                             .doc(userDBdata.login) //add new decument to collection username(in this doc all stories of certain user)
                             .collection('userStories')
                             .add({
@@ -132,17 +126,17 @@ export default function UserStories(props) {
 
 
     }
-    
-  const UpdateUserData = () => {
-    console.log("Update userData:")
-    if (firebase.auth().currentUser) {
-      let userId = firebase.auth().currentUser.uid;
-      if (userId) {
-        firebase.database().ref('users/' + userId)
-          .update({havestory:true})
-      }
+
+    const UpdateUserData = () => {
+        console.log("Update userData:")
+        if (firebase.auth().currentUser) {
+            let userId = firebase.auth().currentUser.uid;
+            if (userId) {
+                firebase.database().ref('users/' + userId)
+                    .update({ havestory: true })
+            }
+        }
     }
-  }
 
     return (
         <View style={{ justifyContent: 'center', marginLeft: 5 }}>

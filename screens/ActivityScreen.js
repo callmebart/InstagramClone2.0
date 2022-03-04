@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, FlatList, ActivityIndicator, Dimensions } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+
 import { LinearGradient } from "expo-linear-gradient";
 
 import * as firebase from 'firebase';

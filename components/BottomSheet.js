@@ -1,12 +1,12 @@
 
-import React, { Component, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, PanResponder, ScrollView, TouchableOpacity, Animated , KeyboardAvoidingView,Image, Keyboard,} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput, PanResponder, ScrollView, TouchableOpacity, Animated, KeyboardAvoidingView, Image, Keyboard, } from 'react-native';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import * as firebase from 'firebase';
 
 //const { windowWidth, windowHeight } = Dimensions.get("window");
-const  windowWidth = Dimensions.get('window').width;
+const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function BottomSheet(props) {
@@ -15,21 +15,21 @@ export default function BottomSheet(props) {
     const [newComment, setNewComment] = useState('')
     const currentUser = props.currentUser
     let keyboardStatus;
- 
+
     useEffect(() => {
-      const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
-        keyboardStatus="Keyboard Shown";
-        bringDownOnKeyboard()      
-      });
-      const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-        keyboardStatus="Keyboard Hidden";
-        bringUpOnKeyboardDown()  
-      });
-  
-      return () => {
-        showSubscription.remove();
-        hideSubscription.remove();
-      };
+        const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+            keyboardStatus = "Keyboard Shown";
+            bringDownOnKeyboard()
+        });
+        const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+            keyboardStatus = "Keyboard Hidden";
+            bringUpOnKeyboardDown()
+        });
+
+        return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+        };
     }, []);
 
     useEffect(() => {
@@ -38,46 +38,46 @@ export default function BottomSheet(props) {
     }, [])
 
     //sending back comment txt to post
-    useEffect(()=>{
-       console.log(newComment)     
-       props.setNewComment(newComment)
-    },[newComment])
+    useEffect(() => {
+        console.log(newComment)
+        props.setNewComment(newComment)
+    }, [newComment])
 
     const bringUpAction = () => {
-       
+
         Animated.spring(top, {
             toValue: windowHeight / 2 + 200,
             duration: 500,
             useNativeDriver: false
-        }).start(()=>{ console.log("topUP",top)});
+        }).start(() => { console.log("topUP", top) });
     }
-    const bringDownAction = () => {  
+    const bringDownAction = () => {
         Animated.spring(top, {
             toValue: -500,
             duration: 500,
             useNativeDriver: false
-        }).start(()=>{  
+        }).start(() => {
             console.log(newComment)
             props.setFadeBottomSheet(false)
         });
     }
-    const bringDownOnKeyboard = () =>{
-       
-        Animated.spring(top,{
-            toValue:windowHeight / 2+50,
+    const bringDownOnKeyboard = () => {
+
+        Animated.spring(top, {
+            toValue: windowHeight / 2 + 50,
             duration: 500,
             useNativeDriver: false
-        }).start(()=>{
-            console.log("topKDOWN",top)
+        }).start(() => {
+            console.log("topKDOWN", top)
         })
     }
-    const bringUpOnKeyboardDown = () =>{  
-        Animated.spring(top,{
+    const bringUpOnKeyboardDown = () => {
+        Animated.spring(top, {
             toValue: windowHeight / 2 + 200,
             duration: 500,
             useNativeDriver: false
-        }).start(()=>{
-            console.log("topUPK",top)
+        }).start(() => {
+            console.log("topUPK", top)
         })
     }
 
@@ -94,7 +94,7 @@ export default function BottomSheet(props) {
                 pan.setOffset({
                     y: pan.y._value
                 });
-                
+
             },
 
             onPanResponderMove: (_, gesture) => {
@@ -102,13 +102,13 @@ export default function BottomSheet(props) {
                 pan.y.setValue(gesture.dy)
                 if (gesture.dy > 100)
                     bringDownAction()
-                    
-                    if(keyboardStatus=="Keyboard Shown"){
-                        if(gesture.dy > 5 ) {
-                            Keyboard.dismiss()
-                            bringDownAction()
-                        }
-                    }              
+
+                if (keyboardStatus == "Keyboard Shown") {
+                    if (gesture.dy > 5) {
+                        Keyboard.dismiss()
+                        bringDownAction()
+                    }
+                }
             },
             onPanResponderRelease: () => {
                 pan.y.setValue(0)
@@ -118,7 +118,7 @@ export default function BottomSheet(props) {
 
     console.log(pan.getLayout())
     const emoticons = ['❤', '🙌🏽', '🔥', '👏🏽', '😢', '😍', '😮', '😂']
-    const listEmoticons = emoticons.map((item,index) => {
+    const listEmoticons = emoticons.map((item, index) => {
         return (
             <TouchableOpacity onPress={() => props.setNewComment(props.newComment + item)} style={styles.touchableEmoticon} key={index}>
                 <Text style={{ fontSize: 26 }}>{item}</Text>
@@ -126,36 +126,36 @@ export default function BottomSheet(props) {
         )
     })
 
-    const publish =  async ()=>{          
-           await firebase.firestore()
-              .collection('posts')
-              .doc(props.postID)
-              .collection('comments')
-              .add({
+    const publish = async () => {
+        await firebase.firestore()
+            .collection('posts')
+            .doc(props.postID)
+            .collection('comments')
+            .add({
                 date: new Date(),
                 likes: [''],
                 name: currentUser.login,
                 text: props.newComment,
                 userUID: currentUser.uid,
                 replys: null,
-                userData: {uid:currentUser.uid,photoURL:currentUser.photoURL,followed:currentUser.followed,login:currentUser.login,haveStory:currentUser.haveStory,firstname:currentUser.firstname},
-              })
-              .then(() => {
+                userData: { uid: currentUser.uid, photoURL: currentUser.photoURL, followed: currentUser.followed, login: currentUser.login, haveStory: currentUser.haveStory, firstname: currentUser.firstname },
+            })
+            .then(() => {
                 console.log("Comment Added to firestore!")
-              })
-              .catch((e) => {
+            })
+            .catch((e) => {
                 console.log("Error while adding to firestore: ", e);
-              })
-            props.setNewComment('Add new comment...')
-            bringDownAction()  
+            })
+        props.setNewComment('Add new comment...')
+        bringDownAction()
     }
 
     return (
-        
+
         <Animated.View style={{
             ...styles.container, height: top, transform: [{ translateY: pan.y }]
         }}
-            >
+        >
 
             <View style={{ height: 50, width: windowWidth, justifyContent: 'center', alignItems: 'center' }} {...panResponder.panHandlers}>
                 <View style={styles.grabLine} ></View>
@@ -164,50 +164,50 @@ export default function BottomSheet(props) {
             {/* <KeyboardAvoidingView
                         behavior='position' style={{ backgroundColor: 'white', flex: 5,alignItems:'center',width:windowWidth-20}}
                     > */}
-                        <View style={{ height: 120, backgroundColor: 'white',width:windowWidth-20,marginTop:-10,marginLeft:10}}>
-                            <View style={{ height: 0.8, backgroundColor: '#E5E8E8', width: windowWidth-20 }} />
+            <View style={{ height: 120, backgroundColor: 'white', width: windowWidth - 20, marginTop: -10, marginLeft: 10 }}>
+                <View style={{ height: 0.8, backgroundColor: '#E5E8E8', width: windowWidth - 20 }} />
 
-                            <View style={{ flexDirection: 'row', marginLeft: 6, marginTop: 5 }}>
-                                {listEmoticons}
+                <View style={{ flexDirection: 'row', marginLeft: 6, marginTop: 5 }}>
+                    {listEmoticons}
+                </View>
+
+                <View style={{ height: 0.8, backgroundColor: '#E5E8E8', width: windowWidth - 20, marginTop: 5 }} />
+
+                <View style={{ marginLeft: 6, marginTop: 5, flexDirection: 'row', width: windowWidth - 20 }}>
+                    {
+                        currentUser.haveStory
+                            ?
+                            <LinearGradient
+                                colors={['#C13584', '#E1306C', '#FD1D1D', '#F56040', '#F77737', '#FCAF45', '#FFDC80']}
+                                start={{ x: 0.7, y: 0 }}
+                                style={styles.gradientImg}
+                            >
+                                <View style={styles.outline}>
+                                    <Image style={styles.imgProfile} source={{ uri: currentUser.photoURL }} />
+                                </View>
+                            </LinearGradient>
+                            : <View style={styles.outline}>
+                                <Image style={styles.imgProfile} source={{ uri: currentUser.photoURL }} />
                             </View>
+                    }
 
-                            <View style={{ height: 0.8, backgroundColor: '#E5E8E8', width: windowWidth -20, marginTop: 5 }} />
+                    <TextInput
+                        placeholder="Add new comment..."
+                        onChangeText={setNewComment}
+                        value={props.newComment}
+                        style={{ marginLeft: 10, fontSize: 15, flex: 2 }}
+                    //onSubmitEditing={Keyboard.dismiss}
+                    />
 
-                            <View style={{ marginLeft: 6, marginTop: 5, flexDirection: 'row', width: windowWidth-20 }}>
-                                {
-                                    currentUser.haveStory
-                                        ?
-                                        <LinearGradient
-                                            colors={['#C13584', '#E1306C', '#FD1D1D', '#F56040', '#F77737', '#FCAF45', '#FFDC80']}
-                                            start={{ x: 0.7, y: 0 }}
-                                            style={styles.gradientImg}
-                                        >
-                                            <View style={styles.outline}>
-                                                <Image style={styles.imgProfile} source={{ uri: currentUser.photoURL }} />
-                                            </View>
-                                        </LinearGradient>
-                                        : <View style={styles.outline}>
-                                            <Image style={styles.imgProfile} source={{ uri: currentUser.photoURL }} />
-                                        </View>
-                                }
+                    <TouchableOpacity onPress={() => publish()} style={{ flex: 0.5, marginRight: 10, justifyContent: 'center' }}>
+                        <Text style={{ color: "#458eff", opacity: 0.5, fontSize: 15 }}>Publish</Text>
+                    </TouchableOpacity>
 
-                                <TextInput
-                                    placeholder="Add new comment..."
-                                    onChangeText={setNewComment}
-                                    value={props.newComment}
-                                    style={{ marginLeft: 10, fontSize: 15, flex: 2 }}
-                                    //onSubmitEditing={Keyboard.dismiss}
-                                />
-
-                                <TouchableOpacity onPress={() => publish()} style={{ flex: 0.5, marginRight: 10, justifyContent: 'center' }}>
-                                    <Text style={{ color: "#458eff", opacity: 0.5, fontSize: 15 }}>Publish</Text>
-                                </TouchableOpacity>
-
-                            </View>
+                </View>
 
 
-                        </View>
-                    {/* </KeyboardAvoidingView > */}
+            </View>
+            {/* </KeyboardAvoidingView > */}
 
 
 
@@ -218,7 +218,7 @@ export default function BottomSheet(props) {
 
 const styles = StyleSheet.create({
     container: {
-        zIndex:10,
+        zIndex: 10,
         position: 'absolute',
         width: windowWidth - 10,
         height: windowHeight / 2,
@@ -230,14 +230,14 @@ const styles = StyleSheet.create({
     },
     grabLine: {
         marginTop: -10,
-        width: windowWidth/ 3,
+        width: windowWidth / 3,
         height: 3,
         borderRadius: 10,
         backgroundColor: '#979797',
         opacity: 0.3,
 
     },
-     imgProfile: {
+    imgProfile: {
         marginLeft: 2,
         marginTop: 2,
         width: 42,

@@ -1,20 +1,15 @@
-import React, {  useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, Animated } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-import { TouchableOpacity, TapGestureHandler } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as firebase from 'firebase';
 
 //ICONS
-import { EvilIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-//COMPONENTS 
-import BottomSheet from '../components/BottomSheet'
-import { PublisherBanner } from 'expo';
+
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -23,7 +18,6 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function Post(props) {
 
-  // console.log("post curernt user",props.currentUserUID)
   const currentUserUID = props.currentUserUID
   const [opacity, setOpacity] = useState(1); //opasity for click - useless
   const [lastPress, setLastPress] = useState(0); //last pres for double press
@@ -55,9 +49,7 @@ export default function Post(props) {
               let userData = snapshot.val();
               setCurrentUserGet(userData)
               setLogin(userData.login)
-              //console.log(currentUserGet.login)            
               setWeHaveUser(true)
-              //getPostDataBase();
             });
         }
       }
@@ -84,11 +76,8 @@ export default function Post(props) {
         .collection('comments')
         .get()
         .then((querySnapshot) => {
-          //console.log('Total Posts: ',querySnapshot.size)
           querySnapshot.forEach(doc => {
             all.push(doc.data());
-            //console.log("allcom: ", all.length)
-            //console.log("postID", props.item)
           })
         })
       setComments(all)
@@ -105,13 +94,12 @@ export default function Post(props) {
     setWhenPostAdded(when)
     setNewComment('Add new comment...')
 
-    console.log('note',props.note)
+    console.log('note', props.note)
     console.log(props.item.postImg)
 
   }, []);
 
   useEffect(() => {
-    //console.log("current user is here ", login)
     getPostDataBase(login)
   }, [login]);
 
@@ -149,19 +137,15 @@ export default function Post(props) {
   //Get data from firestore 
   const getPostDataBase = async (login) => {
     try {
-      console.log("==================================getPostDataBase=====================================")
       await firebase.firestore()
         .collection('posts')
         .doc(postID)
         .onSnapshot(documentSnapshot => {
           var data = documentSnapshot.data()
           setLikesArray(data.likes)
-          //console.log("POST likes", data.likes)
           if (likesArray.includes(currentUserUID)) {
             setLike(true)
-            // console.log("user is in array")
           } else { setLike(false) }
-          //console.log("setLoading FALSE")
           setLoading(false)
         })
     } catch (e) { console.log(e) }
@@ -254,7 +238,7 @@ export default function Post(props) {
         comments: comments,
         currentUser: currentUserGet,
         postImg: props.item.postImg,
-        postUserId:props.item.userId
+        postUserId: props.item.userId
       }
     })
   }
@@ -295,19 +279,6 @@ export default function Post(props) {
 
   }
 
-  // useEffect(() => {
-  //   props.setInHomeNewComment(newComment)  
-  //   //setNewComment(props.newComment)
-  // }, [newComment])
-  
-  // useEffect(()=>{
-  //   setNewComment(props.newComment)
-  // },[props.newComment])
-
-
-  
- 
-
   const fadeInSheet = () => {
     props.setSelectedId()
     props.setFadeBottomSheet(true)
@@ -334,24 +305,22 @@ export default function Post(props) {
       .catch((e) => {
         console.log("Error while adding to firestore: ", e);
       })
-      props.setInHomeNewComment('Add new comment...')
+    props.setInHomeNewComment('Add new comment...')
   }
 
   const pasteHeart = () => {
     if (props.newComment == 'Add new comment...') {
-      //setNewComment('❤')
-      props.setInHomeNewComment('❤')  
+      props.setInHomeNewComment('❤')
     } else {
-      props.setInHomeNewComment(props.newComment+ '❤')
+      props.setInHomeNewComment(props.newComment + '❤')
     }
   }
 
   const pasteHands = () => {
     if (props.newComment == 'Add new comment...') {
-     // setNewComment()
-      props.setInHomeNewComment('🙌🏽')  
+      props.setInHomeNewComment('🙌🏽')
     } else {
-      props.setInHomeNewComment(props.newComment+'🙌🏽') 
+      props.setInHomeNewComment(props.newComment + '🙌🏽')
     }
   }
   return (
@@ -471,8 +440,8 @@ export default function Post(props) {
 
                   <TouchableOpacity onPress={() => fadeInSheet()}>
 
-                     <Text style={styles.commentSec}>{props.newComment}</Text>
-                    
+                    <Text style={styles.commentSec}>{props.newComment}</Text>
+
                   </TouchableOpacity>
 
 

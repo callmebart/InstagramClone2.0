@@ -1,20 +1,15 @@
-import React, { Component, useState, } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Pressable } from 'react-native';
-import { LinearGradient } from "expo-linear-gradient";
+import React, { useState, } from 'react';
+import { View, Text, StyleSheet, Image, Dimensions, Pressable } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 
 export default function Img(props) {
 
   const [opacity, setOpacity] = useState(1);
   const pressIn = () => {
-    console.log("press")
     setOpacity(0.5)
   }
   const pressOut = () => {
-    console.log("press out")
     setOpacity(1)
   }
   return (

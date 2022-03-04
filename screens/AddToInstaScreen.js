@@ -38,7 +38,6 @@ export default function AddToInstaScreen({ route, navigation }) {
   useEffect(() => {
     readUserData();
     if (loaded) {
-      //onChooseImagePress();
       setLoaded(false)
     }
   }, [navigation])
@@ -55,7 +54,6 @@ export default function AddToInstaScreen({ route, navigation }) {
       let data = await MediaLibrary.getAssetsAsync({
         first: 30
       })
-      //console.log(data.assets[0].uri)
       setPhotosFromGallery(data.assets)
       setSelectedPhoto(data.assets[0].uri)
     } else {

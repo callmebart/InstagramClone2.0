@@ -66,19 +66,6 @@ export default function ProfileScreen({ navigation, route }) {
     console.log("view 2")
   }
 
-  // const loadStorage = async () => {
-  //   try {
-  //     const jsonValue = await AsyncStorage.getItem('User')
-  //     if (jsonValue !== null) {
-  //       setUserStorage(JSON.parse(jsonValue))
-  //       //console.log("userStorage", userStorage);
-  //       setUserUid(userStorage.uid)
-
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
 
   const fetchPost = async (user) => {
     const list = [];

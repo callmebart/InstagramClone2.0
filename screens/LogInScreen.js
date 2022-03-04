@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity, Dimensions, LogBox } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View,  Image, TextInput, TouchableOpacity, LogBox } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AntDesign } from '@expo/vector-icons';
 import * as firebase from 'firebase';
-import * as Facebook from 'expo-facebook';
-import auth from '@react-native-firebase/auth';
 
 /*Styles*/
 import { styles } from '../styles/styles'

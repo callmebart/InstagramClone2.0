@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import 'react-native-gesture-handler';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useCachedResources from './hooks/useCachedResources';
@@ -13,7 +12,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LogInScreen from "./screens/LogInScreen";
 
 import Navigation from "./navigation/Navigation";
-import HomeScreen from "./screens/HomeScreen"
 import ProfileScreen from "./screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();

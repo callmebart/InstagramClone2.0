@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, PanResponder, Animated, FlatList, TextInput, Keyboard, } from 'react-native';
 
 
@@ -69,7 +69,6 @@ useEffect(()=>{
       }
 
     useEffect(() => {
-       // console.log("SEARCHING....:", searchTxt)
         searchThroughUsers(searchTxt)
     }, [searchTxt]);
 
@@ -147,7 +146,6 @@ useEffect(()=>{
 
     //displays markers on img 
     let listUsers = taggedUsers.map((item, index) => {
-        // console.log("item:",item)
         return (
             <TouchableOpacity style={{ position: 'absolute', backgroundColor: 'black', opacity: 0.8, left: item.x - 20, top: item.y - 70, borderRadius: 10, alignItems: 'center', }} key={index}>
                 <View style={{ ...styles.triangle }} />

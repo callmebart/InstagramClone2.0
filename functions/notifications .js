@@ -1,7 +1,6 @@
 
 import * as firebase from 'firebase';
 export const addNotification = async(randomUserUid,userData,type,postID,photoUrl,comments) =>{
-    console.log("adding notification...")
         await firebase.firestore()
             .collection('notifications')
             .doc(randomUserUid)

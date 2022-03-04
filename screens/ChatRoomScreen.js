@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from 'expo-image-picker';
 import { Audio } from 'expo-av';
-import * as Permissions from "expo-permissions";
+
 
 import * as firebase from 'firebase';
 //ICONS
@@ -38,7 +38,6 @@ export default function ChatRoomScreen({ route, navigation }) {
     const [recording, setRecording] = useState();
     const [recColor, setRecColor] = useState('black')
 
-    const [sound, setSound] = useState()
 
     let keyboardStatus;
 
@@ -86,7 +85,7 @@ export default function ChatRoomScreen({ route, navigation }) {
             .orderBy('date', 'asc')
             .get()
             .then((querySnapshot) => {
-                //console.log('Total Posts: ', querySnapshot.size)
+            
                 querySnapshot.forEach(doc => {
                     messages.push(doc.data())
                 })
@@ -96,7 +95,6 @@ export default function ChatRoomScreen({ route, navigation }) {
     }
 
     const sendMessage = async (messageToSend,durationFinal) => {
-        // console.log("sending...")
         if (messageToSend != '')
             await firebase.firestore()
                 .collection('messenger')
@@ -111,7 +109,6 @@ export default function ChatRoomScreen({ route, navigation }) {
                 .then(() => {
                     ("Message send!")
                     getMessages()
-                    //messageToSend('')
                 })
                 .catch((e) => {
                     console.log("Error while adding to firestore: ", e);
@@ -164,7 +161,6 @@ export default function ChatRoomScreen({ route, navigation }) {
         ref.put(blob);
         console.log("blob send")
 
-        //informacje o wysyłce danych i get url of photo
         ref.put(blob).on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
             (snapshot) => {
                 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -204,7 +200,6 @@ export default function ChatRoomScreen({ route, navigation }) {
         ref.put(blob);
         console.log("blob send")
 
-        //informacje o wysyłce danych i get url of photo
         ref.put(blob).on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
             (snapshot) => {
                 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;

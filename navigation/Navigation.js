@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 /*Icons*/
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -90,7 +86,7 @@ const SearchScreenStack = ({ route, navigation }) => {
 
   return (
     <Stack.Navigator
-    screenOptions={screenOptionStyle}
+      screenOptions={screenOptionStyle}
     >
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen name="SinglePostScreen" component={SinglePostScreen} />
@@ -167,7 +163,7 @@ const ActivityStack = ({ route, navigation }) => {
           headerStyle: { height: 70 },
           headerTitleStyle: { fontSize: 18 },
         }} />
-        
+
     </Stack.Navigator>
   );
 }
@@ -261,7 +257,7 @@ const Navi = ({ route, navigation }) => {
       tabBarOptions={{
         activeTintColor: 'black',
         inactiveTintColor: 'gray',
-        labelStyle: { display: "none" }, //wywala mi podpisy pod iconami 
+        labelStyle: { display: "none" },
 
       }}
     >

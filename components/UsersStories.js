@@ -1,13 +1,11 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import * as firebase from 'firebase';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default function UserStories(props) {
-
     //in the props i get all posts and user data [] props.item[0] first post 
     const [userDBdata, setUserDBdata] = useState();    //for user real Time Database 
     const [loaded, setLoaded] = useState(false);
@@ -20,27 +18,24 @@ export default function UserStories(props) {
 
 
     const readUserData = async () => {
-        try{
-        if (await firebase.auth().currentUser) {
-            let userId = firebase.auth().currentUser.uid;
-            if (userId) {
-                await firebase.database().ref('users/' + userId)
-                    .once('value')
-                    .then(snapshot => {
-                        //console.log('User data instaStory: ', snapshot.val());
-                        let userData = snapshot.val();
-                        setUserDBdata(userData);
-                        //console.log("instaStoryUserData: ", userDBdata.photoURL)
-                        setLoaded(true)
-                    });
+        try {
+            if (await firebase.auth().currentUser) {
+                let userId = firebase.auth().currentUser.uid;
+                if (userId) {
+                    await firebase.database().ref('users/' + userId)
+                        .once('value')
+                        .then(snapshot => {
+                            let userData = snapshot.val();
+                            setUserDBdata(userData);
+                            setLoaded(true)
+                        });
+                }
             }
-        }
-    }catch(e){console.log(e)}
+        } catch (e) { console.log(e) }
     }
 
-    const openStory = () =>{
-        console.log('Open user story with name:',props.item.userName)
-        props.navigation.navigate("OpenedStoryScreen",{testProp:props.item.userName,items:props})
+    const openStory = () => {
+        props.navigation.navigate("OpenedStoryScreen", { testProp: props.item.userName, items: props })
     }
     return (
 
@@ -48,7 +43,7 @@ export default function UserStories(props) {
             {loaded
 
                 ? <View style={{ alignItems: 'center' }} >
-                    <TouchableOpacity style={{alignItems:'center'}} onPress={() =>openStory()}>
+                    <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => openStory()}>
                         <LinearGradient
                             colors={['#C13584', '#E1306C', '#FD1D1D', '#F56040', '#F77737', '#FCAF45', '#FFDC80']}
                             start={{ x: 0.7, y: 0 }}

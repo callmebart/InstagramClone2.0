@@ -5,7 +5,6 @@ export const launchCamera = async (currentUserUid,secondUserUid) => {
     let result = await ImagePicker.launchCameraAsync();
     //let result = await ImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
-        //stworzenie filename i unique nazwa na podstawie daty 
         let filename = result.uri.substring(result.uri.lastIndexOf('/') + 1)
         const extension = filename.split('.').pop();
         const name = filename.split('.').slice(0, -1).join('.');
@@ -25,7 +24,6 @@ const uploadImage = async (uri, imageName,currentUserUid,secondUserUid) => {
     ref.put(blob);
     console.log("blob send")
 
-    //informacje o wysyłce danych i get url of photo
     ref.put(blob).on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
         (snapshot) => {
             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -72,8 +70,6 @@ const sendMessage = async (messageToSend,currentUserUid,secondUserUid) => {
             })
             .then(() => {
                 ("Message send!")
-                //getMessages()
-                //messageToSend('')
             })
             .catch((e) => {
                 console.log("Error while adding to firestore: ", e);

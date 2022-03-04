@@ -72,7 +72,6 @@ export default function HomeScreen({ route, navigation }) {
         .orderBy('postTime', 'desc')
         .get()
         .then((querySnapshot) => {
-          //console.log('Total Posts: ',querySnapshot.size)
           querySnapshot.forEach(doc => {
             const { userId, post, postImg, postTime, likes, comments, userName, userImg,
               taggedUsers,
@@ -126,7 +125,6 @@ export default function HomeScreen({ route, navigation }) {
         userDBdata={userDBdata}
         currentUserUID={currentUserUID}
         onPress={() => navigation.navigate("HomeProfile", { userId: item.userId })}
-        userDBdata={userDBdata}
         setSelectedId={() => setSelectedId(item.id)} //Id of the post
         setFadeBottomSheet={(set) => setFadeBottomSheet(set)} //fade in sheet
         newComment={commmentValue} //comment value

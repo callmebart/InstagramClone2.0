@@ -28,7 +28,6 @@ export default function MessagesScreen({ route, navigation }) {
   const [showoptions, setShowoptions] = useState(false) // if true search people arry is shown 
   const [chatsUsersData, setChatsUserData] = useState([])
 
-  // console.log("current user messages ", currentUser.uid)
 
   useEffect(() => {
     fetchUsersData()
@@ -49,7 +48,6 @@ export default function MessagesScreen({ route, navigation }) {
       .doc(currentUser.uid)
       .onSnapshot(documentSnapshot => {
         const users = documentSnapshot.data().chatWith
-        //console.log("chats:", users)
         setUsersWeChat(users)
         readChatUsersData(users)
 
@@ -72,7 +70,6 @@ export default function MessagesScreen({ route, navigation }) {
           const o = {
             secondUser: chatsUsersData[indexX]
           }
-          //console.log('Total Posts: ',querySnapshot.size)
           querySnapshot.forEach(doc => {
             obj = Object.assign(o, doc.data())
             all.push(obj);
@@ -80,7 +77,6 @@ export default function MessagesScreen({ route, navigation }) {
           finalResult.push(all);
         })
     }
-    //console.log("AllCHATS:", finalResult)
     setAllChats(finalResult)
     setloaded(true)
   }
@@ -88,20 +84,17 @@ export default function MessagesScreen({ route, navigation }) {
   const readChatUsersData = async (users) => {
     let usersPush = []
     for (let i = 0; i < users.length; i++) {
-      //console.log("ReadUserData:")
       await firebase.database().ref('users/' + users[i])
         .once('value')
         .then(snapshot => {
           let userDataRender = snapshot.val();
           usersPush.push(userDataRender)
         });
-      //console.log("PUSH:", usersPush)
       setChatsUserData(usersPush)
     }
   }
 
   const fetchUsersData = async () => {
-    // console.log("fetch data")
     let usersArry = [];
     for (let i = 0; i < currentUser.followed.length; i++) {
       await firebase.database().ref('users/' + currentUser.followed[i])
@@ -110,7 +103,7 @@ export default function MessagesScreen({ route, navigation }) {
           usersArry.push(snapshot.val());
         });
     }
-    // console.log("usersARRY2", usersArry)
+
     setUsersData(usersArry);
   }
 
@@ -174,7 +167,6 @@ export default function MessagesScreen({ route, navigation }) {
 
 
   const renderChats = ({ item, index }) => {
-    //console.log("AAAAAAAA", item[0].secondUser)
     return (
       <View style={{flexDirection:'row'}}>
         <TouchableOpacity onPressIn={() => choosePerson(item[0].secondUser)} style={{ flexDirection: 'row', paddingLeft: 10, paddingBottom: 20, top: 0,flex:1.8 }}>
@@ -288,7 +280,6 @@ const styles = StyleSheet.create({
   },
   messagesView: {
     flex: 1,
-    //backgroundColor: 'red'
   },
   messagesScrollView: {
     backgroundColor: 'white',

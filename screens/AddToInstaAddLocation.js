@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, FlatList } from 'react-native';
-import storage from '@react-native-firebase/storage';
 
-import { utils } from '@react-native-firebase/app';
-import { Alert } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import firestore from '@react-native-firebase/firestore';
-import * as firebase from 'firebase';
-
-import apiKeys from '../config/keys';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useIsFocused } from '@react-navigation/native';
-
-import * as Location from 'expo-location';
 
 /*ICONS*/
 import { AntDesign } from '@expo/vector-icons';
@@ -26,8 +14,7 @@ const windowHeight = Dimensions.get('window').height;
 export default function AddToInstaAdvancedSettings({ route, navigation }) {
 
     const [searchTxt, setSearchTxt] = useState(); //string of serching text input
-    const currentLatitude = route.params.currentLatitude
-    const currentLongitude = route.params.currentLongitude
+  
     const currentLocations = route.params.currentLocations
 
     const [newLocalization,setNewLocalization] = useState()

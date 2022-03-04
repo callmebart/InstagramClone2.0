@@ -3,8 +3,6 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, FlatList, TextInput, D
 import { LinearGradient } from "expo-linear-gradient";
 import * as firebase from 'firebase';
 /*ICONS*/
-import { Fontisto } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 
@@ -69,7 +67,6 @@ export default function CommentsScreen({ route, navigation }) {
                 .orderBy('date', 'asc')
                 .get()
                 .then((querySnapshot) => {
-                    //console.log('Total Posts: ',querySnapshot.size)
                     querySnapshot.forEach(doc => {
                         all.push(doc.data());
                     })
@@ -107,7 +104,6 @@ export default function CommentsScreen({ route, navigation }) {
                 likes: item.likes,
                 currentUserData: route.params.currentUser,
                 userDBdata: route.params.currentUser, //useless 
-                //postdata: props.postdata,
             },
         });
     }
@@ -145,7 +141,6 @@ export default function CommentsScreen({ route, navigation }) {
         return difference;
     }
     const goToProfile = (userUID, login, photoURL) => {
-        // console.log('userUID:', userUID, login)
         const postdata = { userName: login, userImg: photoURL } // in profileScreen i use  user name from posdata to follow people and i dont want to change it couse im lazy
         navigation.navigate("HomeProfile", { userId: userUID, postdata: postdata, })
     }
