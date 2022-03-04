@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Image, LogBox, TouchableOpacity, Dimensions, TextInput, FlatList, Switch } from 'react-native';
-import storage from '@react-native-firebase/storage';
+import { StyleSheet, Text, View,  Image, TouchableOpacity, Dimensions, TextInput, FlatList, Switch } from 'react-native';
 
-import { utils } from '@react-native-firebase/app';
 import { Alert } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import firestore from '@react-native-firebase/firestore';
 import * as firebase from 'firebase';
-
-import apiKeys from '../config/keys';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useIsFocused } from '@react-navigation/native';
 
 import * as Location from 'expo-location';
 
@@ -64,22 +56,6 @@ export default function AddToInstaFinalScreen({ route, navigation }) {
         getLocalization()
     },[])
 
-    /*
-        TODO
-       -figure out how to get localization name by lon and lat 
-       and set  const locations = ['Kraków', 'Bronowice Wilekie', 'Stare Miasto w Krakowie']
-       index0-user location
-       index1-user location + lon lat random number 
-       index2 - user location + lon lat random number 
-
-       -write code for marking people 
-       -figure out how to post smth on facebook using react 
-       -figure out advanced settings 
-       -dont make fundrising right now 
-
-       -adding multiple photos to one post:
-            -ideas : do smth like arry of photoURI make flatList or some kind of slider  
-    */
     const getLocalization = async ()=>{    
         let { status } = await Location.requestPermissionsAsync();
 
